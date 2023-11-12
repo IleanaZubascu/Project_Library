@@ -1,4 +1,4 @@
-package repository.book;
+package repository.book.Book;
 
 import model.Book;
 

@@ -11,7 +11,7 @@ public class JDBConnectionWrapper {
     private static final String DB_URL = "jdbc:mysql://localhost/";
 
     private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "@Ceaiverde30";
     private static final int TIMEOUT = 5;
 
 
@@ -39,8 +39,31 @@ public class JDBConnectionWrapper {
                 "publishedDate datetime DEFAULT NULL," +
                 "PRIMARY KEY(id),"+
                 "UNIQUE KEY id_UNIQUE(id)" +
+                ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
+        statement.execute(sql);
+
+       sql="CREATE TABLE IF NOT EXISTS ebook("+
+                "id bigint NOT NULL AUTO_INCREMENT,"+
+                "author varchar(500)NOT NULL,"+
+                "title varchar(500) NOT NULL,"+
+                "format varchar(500) NOT NULL,"+
+                "publishedDate datetime DEFAULT NULL,"+
+                "PRIMARY KEY(id),"+
+                "UNIQUE KEY id_UNIQUE(id)"+
+                ")ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8";
+        statement.execute(sql);
+
+        sql="CREATE TABLE IF NOT EXISTS audiobook("+
+                "id bigint NOT NULL AUTO_INCREMENT,"+
+                "author varchar(500) NOT NULL,"+
+                "title varchar(500) NOT NULL,"+
+                "runTime int NOT NULL,"+
+                "publishedDate datetime DEFAULT NULL,"+
+                "PRIMARY KEY(id),"+
+                "UNIQUE KEY id_UNIQUE(id)"+
                 ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;";
         statement.execute(sql);
+
     }
 
     public boolean testConnection() throws SQLException {

@@ -1,18 +1,17 @@
-package repository.book;
+package repository.book.Book;
 
 import model.Book;
 import model.builder.BookBuilder;
+import repository.book.Book.BookRepository;
 
-import javax.xml.transform.Result;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Long.valueOf;
 
-public class BookRepositoryMySQL implements BookRepository{
+public class BookRepositoryMySQL implements BookRepository {
     private final Connection connection;
 
     public BookRepositoryMySQL(Connection connection){
@@ -43,26 +42,21 @@ public class BookRepositoryMySQL implements BookRepository{
 
     @Override
     public Optional<Book> findById(Long id) {
-        String Stringid=String.valueOf(id);
-        String sql="SELECT * FROM book WHERE id="+Stringid;
-        Optional<Book> book= Optional.empty();
+        String sql = "SELECT * FROM book where id= ?";
+
         try{
-//
-
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            ResultSet result=preparedStatement.executeQuery();
-            while(result.next())
-            {
-                Book newBook= getBookFromResultSet(result);
-                book= Optional.of(newBook);
-                return book;
-            }
+            preparedStatement.setLong(1,id);
 
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                Book book = getBookFromResultSet(resultSet);
+                return Optional.of(book);
+            }
         } catch (SQLException e){
             e.printStackTrace();
-            return Optional.empty();
         }
-        return book;
+        return Optional.empty();
 
     }
 

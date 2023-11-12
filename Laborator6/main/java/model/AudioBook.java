@@ -3,16 +3,11 @@ package model;
 import java.time.LocalDate;
 import java.util.Date;
 
-// POJO - Plain Old Java Object
-//Java Bean
-public class Book{
-
+public class AudioBook {
     private Long id;
-
     private String author;
-
     private String title;
-
+    private int runTime;
     private LocalDate publishedDate;
 
     public Long getId() {
@@ -39,6 +34,14 @@ public class Book{
         this.title = title;
     }
 
+    public int getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(int runTime) {
+        this.runTime = runTime;
+    }
+
     public LocalDate getPublishedDate() {
         return publishedDate;
     }
@@ -48,6 +51,6 @@ public class Book{
     }
     @Override
     public String toString(){
-        return String.format("Book author: %s | title: %s | Published Date: %s.", author, title, publishedDate);
+        return String.format("Book author: %s | title: %s | runTime: %s | Published Date: %s.", author, title,runTime, publishedDate);
     }
 }

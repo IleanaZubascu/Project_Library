@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="repositories.BookRepositoryMySQLTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2023-11-12T19:27:57" hostname="DESKTOP-2UUS5AM" time="0.091">
+  <properties/>
+  <testcase name="findAllWhenNotEmpty()" classname="repositories.BookRepositoryMySQLTest" time="0.068"/>
+  <testcase name="findAll()" classname="repositories.BookRepositoryMySQLTest" time="0.006"/>
+  <testcase name="findById()" classname="repositories.BookRepositoryMySQLTest" time="0.003"/>
+  <testcase name="save()" classname="repositories.BookRepositoryMySQLTest" time="0.006"/>
+  <testcase name="removeAll()" classname="repositories.BookRepositoryMySQLTest" time="0.003"/>
+  <system-out><![CDATA[SUCCES
+SUCCES
+SUCCES
+SUCCES
+SUCCES
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

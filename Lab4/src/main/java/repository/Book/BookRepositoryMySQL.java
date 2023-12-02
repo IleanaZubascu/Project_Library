@@ -14,7 +14,7 @@ import static java.lang.Long.valueOf;
 public class BookRepositoryMySQL implements BookRepository {
     private final Connection connection;
 
-    public BookRepositoryMySQL(Connection connection){
+    public BookRepositoryMySQL(Connection connection) {
         this.connection = connection;
     }
 
@@ -23,16 +23,16 @@ public class BookRepositoryMySQL implements BookRepository {
         String sql = "SELECT * FROM book;";
 
         List<Book> books = new ArrayList<>();
-        try{
+        try {
             Statement statement = connection.createStatement();
 
             ResultSet resultSet = statement.executeQuery(sql);
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 books.add(getBookFromResultSet(resultSet));
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -44,16 +44,16 @@ public class BookRepositoryMySQL implements BookRepository {
     public Optional<Book> findById(Long id) {
         String sql = "SELECT * FROM book where id= ?";
 
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1,id);
+            preparedStatement.setLong(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 Book book = getBookFromResultSet(resultSet);
                 return Optional.of(book);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return Optional.empty();
@@ -61,10 +61,9 @@ public class BookRepositoryMySQL implements BookRepository {
     }
 
     /**
-     *
      * How to reproduce a sql injection attack on insert statement
-     *
-     *
+     * <p>
+     * <p>
      * 1) Uncomment the lines below and comment out the PreparedStatement part
      * 2) For the Insert Statement DROP TABLE SQL Injection attack to succeed we will need multi query support to be added to our connection
      * Add to JDBConnectionWrapper the following flag after the DB_URL + schema concatenation: + "?allowMultiQueries=true"
@@ -76,18 +75,14 @@ public class BookRepositoryMySQL implements BookRepository {
 
     // ALWAYS use PreparedStatement when USER INPUT DATA is present
     // DON'T CONCATENATE Strings
-
     @Override
     public boolean save(Book book) {
-        String sql = "INSERT INTO book VALUES(null, ?, ?, ?);";
+        String sql = "INSERT INTO book VALUES(null, ?, ?, ?, ?, ?);";
 
 //        String newSql = "INSERT INTO book VALUES(null, \'" + book.getAuthor() +"\', \'"+ book.getTitle()+"\', null );";
 
 
-
-
-
-        try{
+        try {
 //            Statement statement = connection.createStatement();
 //            statement.executeUpdate(newSql);
 //            return true;
@@ -96,12 +91,14 @@ public class BookRepositoryMySQL implements BookRepository {
             preparedStatement.setString(1, book.getAuthor());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setDate(3, java.sql.Date.valueOf(book.getPublishedDate()));
+            preparedStatement.setInt(4, book.getPrice());
+            preparedStatement.setInt(5, book.getStock());
 
             int rowsInserted = preparedStatement.executeUpdate();
 
             return (rowsInserted != 1) ? false : true;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -112,12 +109,12 @@ public class BookRepositoryMySQL implements BookRepository {
     public void removeAll() {
         String sql = "DELETE FROM book";
 
-        try{
-            PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            int succes=preparedStatement.executeUpdate();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            int succes = preparedStatement.executeUpdate();
             System.out.println("SUCCES");
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -130,7 +127,56 @@ public class BookRepositoryMySQL implements BookRepository {
                 .setAuthor(resultSet.getString("author"))
                 .setTitle(resultSet.getString("title"))
                 .setPublishedDate(new java.sql.Date((resultSet.getDate("publishedDate")).getTime()).toLocalDate())
+                .setPrice(resultSet.getInt("price"))
+                .setStock(resultSet.getInt("stock"))
                 .build();
     }
 
+    @Override
+    public void updateStockBook(Long id, int stock) {
+        String sql = "UPDATE book SET stock= ? WHERE id= ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, stock);
+            preparedStatement.setLong(2, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void deleteBook(Book book) {
+        String sql = "DELETE from book where id=?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, book.getId());
+
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateBook(Book book)
+    {
+        String sql = "UPDATE book SET author = ?, title = ?, publishedDate = ?, price = ?, stock = ? WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, book.getAuthor());
+            preparedStatement.setString(2, book.getTitle());
+            preparedStatement.setDate(3, java.sql.Date.valueOf(book.getPublishedDate()));
+            preparedStatement.setInt(4, book.getPrice());
+            preparedStatement.setInt(5, book.getStock());
+            preparedStatement.setLong(6,book.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

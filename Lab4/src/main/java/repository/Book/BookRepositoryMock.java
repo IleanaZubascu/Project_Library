@@ -36,4 +36,19 @@ public class BookRepositoryMock implements BookRepository {
     public void removeAll() {
         books.clear();
     }
+
+    @Override
+    public void updateStockBook(Long id, int stock) {
+
+    }
+
+    @Override
+    public void deleteBook(Book book) {
+
+    }
+
+    @Override
+    public void updateBook(Book book) {
+
+    }
 }

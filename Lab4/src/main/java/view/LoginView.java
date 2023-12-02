@@ -26,7 +26,10 @@ public class LoginView {
     private Button logInButton;
     private Text actiontarget;
 
+    private final Stage primaryStage;
+
     public LoginView(Stage primaryStage) {
+        this.primaryStage=primaryStage;
         primaryStage.setTitle("Book Store");
 
         GridPane gridPane = new GridPane();
@@ -101,5 +104,9 @@ public class LoginView {
 
     public void addRegisterButtonListener(EventHandler<ActionEvent> signInButtonListener) {
         signInButton.setOnAction(signInButtonListener);
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 }

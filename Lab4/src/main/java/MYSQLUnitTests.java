@@ -23,7 +23,7 @@ import java.util.Optional;
 public class MYSQLUnitTests {
     public static void main(String[] args){
 
-        JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper("test_library");
+        JDBConnectionWrapper connectionWrapper = new JDBConnectionWrapper("library");
 
 
 
@@ -34,17 +34,53 @@ public class MYSQLUnitTests {
                 .setAuthor("IDK")
                 .setTitle("Fram Ursul Polar")
                 .setPublishedDate(LocalDate.of(2010, 6, 2))
+                .setPrice(20)
+                .setStock(100)
+                .build();
+
+        Book book1 = new BookBuilder()
+                .setAuthor("Fyodor Dostoievski")
+                .setTitle("The Meek One")
+                .setPublishedDate(LocalDate.of(1876, 12, 20))
+                .setPrice(19)
+                .setStock(50)
+                .build();
+        Book book2 = new BookBuilder()
+                .setAuthor("Fyodor Dostoievski")
+                .setTitle("Crime and punishment")
+                .setPublishedDate(LocalDate.of(1866, 10, 6))
+                .setPrice(19)
+                .setStock(50)
+                .build();
+        Book book3 = new BookBuilder()
+                .setAuthor("Edgar Allan Pow")
+                .setTitle("Prabusirea Casei Usher")
+                .setPublishedDate(LocalDate.of(1839, 11, 10))
+                .setPrice(19)
+                .setStock(50)
                 .build();
 
         bookRepository.save(book);
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+        bookRepository.save(book3);
 
-       Optional<Book> Idbook=bookRepository.findById(2L);
 
 
+//       Optional<Book> Idbook=bookRepository.findById(2L);
+//
+//        Book book3 = new BookBuilder()
+//                .setAuthor("Edgar Allan Pow")
+//                .setTitle("Pisica neagra")
+//                .setPublishedDate(LocalDate.of(1839, 11, 10))
+//                .setPrice(19)
+//                .setStock(0)
+//                .build();
+//        bookRepository.save(book3);
 
-        System.out.println(bookRepository.findAll());
-
-        System.out.println(Idbook);
+//        System.out.println(bookRepository.findAll());
+//
+//        System.out.println(Idbook);
   //      Integer s=0;
 //        bookRepository.removeAll();
 
@@ -80,5 +116,7 @@ public class MYSQLUnitTests {
 //        List<AudioBook> audioBooks= audioBookRepository.findAll();
 //
 //      Optional<AudioBook> IDEeBook=audioBookRepository.findById(1L);
+
+
    }
 }

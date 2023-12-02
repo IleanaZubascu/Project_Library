@@ -31,6 +31,11 @@ public class BookServiceImpl implements BookService {
         return bookRepository.save(book);
     }
 
+    public void deleteBook(Book book)
+    {
+        bookRepository.deleteBook(book);
+    }
+
     @Override
     public int getAgeOfBook(Long id) {
         Book book = this.findById(id);
@@ -39,4 +44,17 @@ public class BookServiceImpl implements BookService {
 
         return (int) ChronoUnit.YEARS.between(book.getPublishedDate(), now);
     }
+
+    @Override
+    public void updateStockBook(Long id, int stock) {
+        bookRepository.updateStockBook(id, stock);
+
+    }
+    public void updateBook(Book book)
+    {
+        bookRepository.updateBook(book);
+    }
+
+
+
 }

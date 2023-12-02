@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public class BookRepositoryCacheDecorator  extends BookRepositoryDecorator {
     private Cache<Book> cache;
+
     public BookRepositoryCacheDecorator(BookRepository bookRepository, Cache<Book> cache){
         super(bookRepository);
         this.cache=cache;
@@ -46,4 +47,21 @@ public class BookRepositoryCacheDecorator  extends BookRepositoryDecorator {
         decoratedRepository.removeAll();
 
     }
+
+    @Override
+    public void updateStockBook(Long id, int stock) {
+        decoratedRepository.updateStockBook(id, stock);
+    }
+
+    @Override
+    public void deleteBook(Book book) {
+        decoratedRepository.deleteBook(book);
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        decoratedRepository.updateBook(book);
+    }
+
+
 }

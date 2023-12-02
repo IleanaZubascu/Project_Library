@@ -1,12 +1,6 @@
 package database;
 
-import static database.Constants.Tables.BOOK;
-import static database.Constants.Tables.RIGHT;
-import static database.Constants.Tables.ROLE;
-import static database.Constants.Tables.ROLE_RIGHT;
-import static database.Constants.Tables.USER;
-import static database.Constants.Tables.USER_ROLE;
-import static database.Constants.Tables.BOOK_DEPOSIT;
+import static database.Constants.Tables.*;
 
 public class SQLTableCreationFactory {
 
@@ -17,6 +11,8 @@ public class SQLTableCreationFactory {
                     "  author varchar(500) NOT NULL," +
                     "  title varchar(500) NOT NULL," +
                     "  publishedDate datetime DEFAULT NULL," +
+                    "  price int(11) NOT NULL," +
+                    "  stock int(11) NOT NULL," +
                     "  PRIMARY KEY (id)," +
                     "  UNIQUE KEY id_UNIQUE (id)" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;";
@@ -75,15 +71,17 @@ public class SQLTableCreationFactory {
                     "    REFERENCES role (id)" +
                     "    ON DELETE CASCADE" +
                     "    ON UPDATE CASCADE);";
-            case BOOK_DEPOSIT ->  "CREATE TABLE IF NOT EXISTS bookDeposit (" +
+            case BOOK_SOLD ->  "CREATE TABLE IF NOT EXISTS bookSold (" +
                     "id int NOT NULL AUTO_INCREMENT, " +
                     "idBook int NOT NULL, " +
-                    "stock int not NULL, " +
-                    "pricePerBook int NOT NULL, " +
+                    "nrOfBooksSold int not NULL, " +
                     "PRIMARY KEY (id) , "+
                     "FOREIGN KEY (idBook) REFERENCES book(id) " +
                     "ON DELETE CASCADE);";
-
+            case RAPORT_EMPLOYEE ->  "CREATE TABLE IF NOT EXISTS raportEmployee (" +
+                    "id int NOT NULL AUTO_INCREMENT, " +
+                    "text varchar(500) NOT NULL, " +
+                    "PRIMARY KEY (id));";
 
 
 

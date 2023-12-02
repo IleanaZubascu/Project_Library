@@ -16,4 +16,12 @@ public interface UserRepository {
     void removeAll();
 
     boolean existsByUsername(String username);
+
+    void deleteUser(Long id);
+
+    void setEmployee(Long id);
+
+    List<User> findAllEmployee();
+
+    List<User> findAllCustomer();
 }
